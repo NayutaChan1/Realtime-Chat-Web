@@ -1,0 +1,9 @@
+/my-express-api
+├── /src
+│   ├── /routes         # Defines the URLs and HTTP methods (GET, POST)
+│   ├── /controllers    # Extracts data from the request and sends the response
+│   ├── /services       # Handles heavy business logic and database interactions
+│   ├── /middlewares    # Reusable functions (e.g., checking authentication tokens)
+│   └── index.js        # The central hub that starts the server
+├── package.json
+└── .env
