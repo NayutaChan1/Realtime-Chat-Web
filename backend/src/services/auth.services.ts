@@ -37,7 +37,9 @@ const getUser = async (username: string, password: string) => {
     }
 
     return{
-        username: user.
+        id: user.id,
+        username: user.username,
+        status: user.status
     }
 }
 
