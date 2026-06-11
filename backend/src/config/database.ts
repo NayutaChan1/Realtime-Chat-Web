@@ -1,12 +1,12 @@
-const { Sequelize } = require('sequelize')
+import { Sequelize } from 'sequelize';
 
 const sequelize = new Sequelize('realtime_chat', 'root', '', {
     host: 'localhost',
-    dialect: 'mysql', 
-    logging: false,   
+    dialect: 'mysql',
+    logging: false,
 });
 
-const testConnection = async () => {
+const testConnection = async (): Promise<void> => {
     try {
         await sequelize.authenticate();
         console.log('MySQL Database connection established successfully!');
@@ -17,4 +17,4 @@ const testConnection = async () => {
 
 testConnection();
 
-module.exports = sequelize;
+export default sequelize;
