@@ -13,13 +13,13 @@ export interface AuthRequest extends Request {
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 export const authMiddleware = (
-  response: Response,
   request: AuthRequest,
+  response: Response,
   next: NextFunction
 ) => {
   const authHeader = request.headers.authorization;
 
-  if(!authHeader || authHeader.startsWith("Bearer: ")){
+  if(!authHeader || !authHeader.startsWith("Bearer: ")){
     return response.status(401).json({message: "No Token Provide"});
   }
 
