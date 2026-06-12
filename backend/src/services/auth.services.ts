@@ -1,13 +1,12 @@
 import bcrypt from 'bcrypt';
 import { User } from '../models/index';
 import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../config/env';
 
 interface RegisteredUser {
     id: number;
     username: string;
 }
-
-const JWT_SECRET= process.env.JWT_SECRET || "SECRETBANGETTTT";
 
 const registerUser = async (
     username: string,
