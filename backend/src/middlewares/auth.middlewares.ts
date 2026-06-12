@@ -11,6 +11,12 @@ export interface AuthRequest extends Request {
   };
 }
 
+export interface Payload {
+  id: number;
+  username: string;
+  status: string;
+}
+
 export const authMiddleware = (
   request: AuthRequest,
   response: Response,
