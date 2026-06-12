@@ -1,4 +1,4 @@
-import { Conversation, Participant } from "../models"
+import { Conversation, Message, Participant, User } from "../models"
 
 
 const createConversation = async (user_id: number, target_id: number) => {
@@ -12,6 +12,31 @@ const createConversation = async (user_id: number, target_id: number) => {
     return conversation;
 }
 
+const getUserConversation = async (user_id: number) => {
+    const conversation = await Conversation.findAll({ 
+        include: [
+            {
+                model: User,
+                where: { id: user_id },
+                attributes: []
+            }
+        ]
+    });
 
+    return conversation;
+}
 
-export { createConversation };
+const getMessages = async (conversation_id: number) => {
+    const messages = await Message.findAll({
+        where: {conversation_id: conversation_id},
+        include: [{
+            model: User,
+            attributes: ['id', 'username'],
+            order: [['createdAt', 'ASC']]
+        }]
+    });
+
+    return messages
+}
+
+export { createConversation, getUserConversation, getMessages };
