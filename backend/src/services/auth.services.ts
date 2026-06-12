@@ -1,10 +1,13 @@
 import bcrypt from 'bcrypt';
 import { User } from '../models/index';
+import jwt from 'jsonwebtoken';
 
 interface RegisteredUser {
     id: number;
     username: string;
 }
+
+const JWT_SECRET= process.env.JWT_SECRET || "SECRETBANGETTTT";
 
 const registerUser = async (
     username: string,
@@ -36,10 +39,14 @@ const getUser = async (username: string, password: string) => {
         throw new Error("Wrong password");
     }
 
+    const token = jwt.sign(
+        {id: user.id, username: user.username, status: user.status},
+        JWT_SECRET,
+        { expiresIn: "7d" }
+    )
+
     return{
-        id: user.id,
-        username: user.username,
-        status: user.status
+        token: token, user: {id: user.id, username: user.username, status: user.status}
     }
 }
 

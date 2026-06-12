@@ -6,20 +6,21 @@ export interface AuthRequest extends Request {
   user?: {
     id: number;
     username: string;
+    status: string;
   };
 }
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 export const authMiddleware = (
-  req: AuthRequest,
-  res: Response,
+  response: Response,
+  request: AuthRequest,
   next: NextFunction
 ) => {
-  const authHeader = req.headers.authorization;
+  const authHeader = request.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "No token provided" });
+  if(!authHeader || authHeader.startsWith("Bearer: ")){
+    return response.status(401).json({message: "No Token Provide"});
   }
 
   const token = authHeader.split(" ")[1];
@@ -28,11 +29,13 @@ export const authMiddleware = (
     const decoded = jwt.verify(token, JWT_SECRET) as {
       id: number;
       username: string;
+      status: string;
     };
 
-    req.user = decoded;
+    request.user = decoded;
     next();
-  } catch (err) {
-    return res.status(401).json({ message: "Invalid or expired token" });
+  } catch (error) {
+    return response.status(401).json({ message: "Token Expired or Invalid"});
   }
-};
+
+}
